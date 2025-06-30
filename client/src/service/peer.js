@@ -66,5 +66,11 @@ class PeerService{
             return offer;
         }
     }
+    resetPeer() {
+        if (this.peer) {
+            this.peer.close(); // Close existing connection
+        }
+        this.createPeer(); // Reinitialize peer connection
+    }
 }
 export default new PeerService();

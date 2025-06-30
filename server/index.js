@@ -4,12 +4,14 @@ const io = new Server(8000,{
 });
 const emailToSocketMap=new Map();//basically a dataset that allows key:value of any type
 const socketToEmailMap=new Map();
+const socketToRoomMap=new Map();
 io.on("connection",(socket)=>{
     console.log(`Socket connected`,socket.id);
     socket.on("room:join",(data)=>{
         const {email, room}=data;
         emailToSocketMap.set(email,socket.id);
         socketToEmailMap.set(socket.id,email);
+        socketToRoomMap.set(socket.id,room);
         io.to(room).emit("user:joined",{email,id:socket.id});
         //basically tell any user already in room that this user is coming
         socket.join(room);
@@ -44,5 +46,43 @@ io.on("connection",(socket)=>{
         console.log("peer:nego:done",ans);
         io.to(to).emit("peer:nego:final",{from:socket.id,ans});
     })
+
+    //THIS IS IN THE CASE WHEN A USE LEAVES A ROOM AND I WANT TO REMOVE HIS STREAM
+    socket.on("disconnect", () => {
+        const email = socketToEmailMap.get(socket.id);
+        const room = socketToRoomMap.get(socket.id); // ✅ Use your custom map
+
+        if (room) {
+            console.log(`User ${socket.id} disconnected from room ${room}`);
+            io.to(room).emit("user:leave", { id: socket.id });
+        } else {
+            console.log(`User ${socket.id} disconnected but was not in any room`);
+        }
+
+        // ✅ Clean up all mappings
+        emailToSocketMap.delete(email);
+        socketToEmailMap.delete(socket.id);
+        socketToRoomMap.delete(socket.id);
+    });
+
+    //WHEN USER LEAVES VIA LEAVE CALL BUTTON
+    socket.on("user:leave",()=>{
+        const email = socketToEmailMap.get(socket.id);
+        const room = socketToRoomMap.get(socket.id); // ✅ Use your custom map
+
+        if (room) {
+            console.log(`User ${socket.id} disconnected from room ${room}`);
+            io.to(room).emit("user:leave", { id: socket.id });
+        } else {
+            console.log(`User ${socket.id} disconnected but was not in any room`);
+        }
+
+        // ✅ Clean up all mappings
+        emailToSocketMap.delete(email);
+        socketToEmailMap.delete(socket.id);
+        socketToRoomMap.delete(socket.id);
+    })
+
+
 
 });
