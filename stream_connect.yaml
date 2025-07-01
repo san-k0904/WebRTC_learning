@@ -1,0 +1,16 @@
+services:
+  server: #👈 this is the container name
+    build: ./server # 👈 We get the image name based on the directory it is in
+    ports:
+    - 8000:8000
+    restart: always  # 👈 Ensures server restarts if it crashes
+  client:
+    build: ./client
+    ports:
+    - 5173:5173
+    environment:
+    - VITE_SOCKET_URL=ws://localhost:8000
+    # EVEN THO OUR CONTAINER WITH THE PORT NAME IS server
+    #We don't do server:8000 bcoz in the end our docker is connecting to our host 
+    #and we are running this on our web browser which knows only localhost:8000 and not
+    #server:8000

@@ -1,0 +1,7 @@
+node_modules
+.dockerignore
+README.md
+.git
+.gitignore
+*.log 
+#eg npm-debug.log

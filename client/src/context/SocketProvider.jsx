@@ -12,11 +12,12 @@ export const useSocket=()=>{
 }
 
 export const SocketProvider=(props)=>{
-    const socket= useMemo(()=>io("localhost:8000"),[]);
+    const socket= useMemo(()=>io(import.meta.env.VITE_SOCKET_URL),[]);
     //basically used to one time run this and remember it 
     //in order to not again calculate it every re-render
     //for that we use "useMemo"
     //the 8000 is what we mentioned in server as "new server(8000)"
+    console.log("SOCKET URL = ", import.meta.env.VITE_SOCKET_URL);
     return(
         <SocketContext.Provider value={socket}>
             {props.children}

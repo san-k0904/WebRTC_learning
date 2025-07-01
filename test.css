@@ -1,0 +1,503 @@
+.room-container {
+    min-height: 100vh;
+    background: linear-gradient(150deg, #190a47 0%, #311b5b 25%, #5f3195 50%, #311b5b 75%, #190a47 100%);
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(to right, #8442aa, #3d75ed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.brand-icon svg {
+    color: white;
+    width: 20px;
+    height: 20px;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-indicator.connected {
+    background: #10b981;
+    color: white;
+}
+
+.status-indicator.waiting {
+    background: #f59e0b;
+    color: white;
+}
+
+.video-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    align-items: center;
+}
+
+.video-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.video-off-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 16px;
+}
+
+.waiting-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.waiting-message {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.waiting-message .waiting-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(to right, #8442aa, #3d75ed);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    font-size: 36px;
+    color: white;
+}
+
+.waiting-message p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.waiting-message span {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.controls-bar {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.control-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 60px;
+    background: linear-gradient(to right, #8442aa, #3d75ed);
+    color: white;
+}
+
+.control-button.muted,
+.control-button.video-off,
+.control-button.leave-button {
+    background: linear-gradient(to right, #ff5e62, #ff9966);
+    color: white;
+}
+
+.control-button.unmuted,
+.control-button.video-on {
+    background: linear-gradient(to right, #10b981, #34d399);
+    color: white;
+}
+
+.control-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.control-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .room-header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .controls-bar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .control-button {
+        flex: 1;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .room-header h1 {
+        font-size: 20px;
+    }
+
+    .control-button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+/* Ring pulse animation behind the icon */
+.waiting-icon::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(132, 66, 170, 0.4);
+    animation: pulseRing 2s infinite ease-in-out;
+    z-index: -1;
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Dots bounce animation */
+.waiting-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.waiting-dots span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.waiting-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.waiting-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+/* LOBBY */
+
+.lobby-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    background: linear-gradient(150deg, #050505 0%, #080708 25%, #606061 50%, #080708 75%, #050505 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Logo Icon Box */
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto 5px;
+}
+
+.logo-icon .icon {
+    width: 40px;
+    height: 40px;
+    color: white;
+}
+
+.brand-title {
+    font-size: 35px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.brand-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 35px;
+}
+
+/* Feature Icons */
+.features {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 32px;
+    width: 40%;
+}
+
+.feature {
+    flex: 1;
+    text-align: center;
+    color: white;
+}
+
+.feature-icon {
+    background: rgba(255, 255, 255, 0.04);
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    font-size: 22px;
+    color: #f1f1f1;
+}
+
+.feature-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Specific Icon Tint Colors */
+.zap {
+    color: #aaaaee;
+}
+
+.users {
+    color: #6ca8ff;
+}
+
+.video {
+    color: #67e6f7;
+}
+
+/* Card Glass Background */
+.lobby-card-glass {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    padding: 20px 30px;
+    text-align: center;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+}
+
+.lobby-form-glass {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+}
+
+.form-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+/* Input Styling */
+.input-icon {
+    position: relative;
+}
+
+.input-icon input {
+    width: 85%;
+    padding: 12px 14px 12px 42px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-size: 15px;
+    color: white;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.input-icon input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.input-icon .icon-left {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Join Room Button */
+.join-button-glass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: #f1f1f1;
+    color: #111;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.join-button-glass:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.join-arrow {
+    width: 20px;
+    height: 20px;
+    margin-left: 2px;
+}
+
+/* Bottom Hint Text */
+.demo-hint {
+    margin-top: 20px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.demo-hint span {
+    color: #ffd4f9;
+    font-weight: 500;
+}
